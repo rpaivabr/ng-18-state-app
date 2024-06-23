@@ -1,11 +1,20 @@
 <header id="header">
-  <span>Cart Items: 0 </span>
-  <!-- <button (click)="resetCart()"></button> -->
+  <span>Cart Items: {{ totalItems }} </span>
+  <button (click)="resetCart()">Reset</button>
 </header>
 
-<ul id="list">
-  <!-- <li *ngFor="let product of products">
-    <span>{{ product.name }}</span>
-    <button [disabled]="false" (click)="addToCart(product)">Add</button>
-  </li> -->
-</ul>
+<div class="list" *ngIf="!selectedProduct">
+  <ul id="list">
+    <li *ngFor="let product of products">
+      <span>{{ product.name }}</span>
+      <button (click)="addToCart(product)">Add</button>
+      <button (click)="selectProduct(product)">More</button>
+    </li>
+  </ul>
+</div>
+
+<div class="detail" *ngIf="selectedProduct">
+  <p>{{ selectedProduct | json }}</p>
+  <button (click)="addToCart(selectedProduct)">Add</button>
+  <button (click)="selectProduct(null)">Back</button>
+</div>

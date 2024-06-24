@@ -10,3 +10,8 @@ export type Product = {
   roast_level: number;
   image_url: string;
 };
+
+export type ProductState = {
+  products: Product[];
+  selectedProduct: Product | null;
+};

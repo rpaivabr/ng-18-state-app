@@ -1,28 +1,25 @@
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
-import { Product } from '../models/product';
-import { HttpClient } from '@angular/common/http';
+import { ProductState } from '../models/product';
+import { Store } from '@ngrx/store';
+import {
+  selectProducts,
+  selectSelectedProduct,
+} from '../state/product/product.selectors';
+import { ProductActions } from '../state/product/product.actions';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private products: Product[] | undefined;
+  products$ = this.store.select(selectProducts);
+  selectedProduct$ = this.store.select(selectSelectedProduct);
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private store: Store<{ product: ProductState }>) {}
 
-  async getProducts(): Promise<Product[]> {
-    if (this.products) return this.products;
-
-    const products$ = this.httpClient.get<Product[]>(
-      'http://localhost:3000/api/v1/coffees'
-    );
-    this.products = await firstValueFrom(products$);
-    return this.products;
+  getProducts(): void {
+    console.log('product service')
+    this.store.dispatch(ProductActions.getProducts());
   }
 
-  async getProductById(id: number): Promise<Product> {
-    const product$ = this.httpClient.get<Product>(
-      `http://localhost:3000/api/v1/coffees/${id}`
-    );
-    return firstValueFrom(product$);
+  getProductById(id: number): void {
+    this.store.dispatch(ProductActions.getProductById({ id }));
   }
 }

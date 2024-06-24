@@ -1,4 +1,4 @@
-export type Cart = {
+export type CartState = {
   cartId: number;
   cartItems: CartItem[];
 }

@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
-// import { interval } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { combineLatest, concat, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -10,18 +11,15 @@ import { CartService } from '../../services/cart.service';
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent {
-  products: Product[] = [];
+  products$ = this.productService.products$;
 
   constructor(
     private productService: ProductService,
     private cartService: CartService
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    this.products = await this.productService.getProducts();
-    // interval(1000).subscribe(value => {
-    //   console.log(value);
-    // })
+  ngOnInit(): void {
+    this.productService.getProducts();
   }
 
   addToCart(product: Product): void {

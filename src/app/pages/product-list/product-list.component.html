@@ -1,7 +1,7 @@
 <ul id="list">
   <li *ngFor="let product of products">
     <span>{{ product.name }}</span>
-    <!-- <button (click)="addToCart.emit(product)">Add</button> -->
+    <button (click)="addToCart(product)">Add</button>
     <button [routerLink]="[product.id]">More</button>
   </li>
 </ul>

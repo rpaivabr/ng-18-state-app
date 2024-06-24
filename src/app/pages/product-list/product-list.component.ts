@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
+import { CartService } from '../../services/cart.service';
+// import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -8,14 +10,21 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent {
-  // @Input() products: Product[] = [];
-  // @Output() addToCart = new EventEmitter<Product>();
-  // @Output() goToProduct = new EventEmitter<Product>();
   products: Product[] = [];
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.products = await this.productService.getProducts();
+    // interval(1000).subscribe(value => {
+    //   console.log(value);
+    // })
+  }
+
+  addToCart(product: Product): void {
+    this.cartService.addToCart(product);
   }
 }

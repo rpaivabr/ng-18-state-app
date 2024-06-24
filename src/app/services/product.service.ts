@@ -3,17 +3,20 @@ import { firstValueFrom } from 'rxjs';
 import { Product } from '../models/product';
 import { HttpClient } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ProductService {
+  private products: Product[] | undefined;
+
   constructor(private httpClient: HttpClient) {}
 
   async getProducts(): Promise<Product[]> {
-    const products$ =  this.httpClient.get<Product[]>(
+    if (this.products) return this.products;
+
+    const products$ = this.httpClient.get<Product[]>(
       'http://localhost:3000/api/v1/coffees'
     );
-    return firstValueFrom(products$);
+    this.products = await firstValueFrom(products$);
+    return this.products;
   }
 
   async getProductById(id: number): Promise<Product> {
@@ -22,5 +25,4 @@ export class ProductService {
     );
     return firstValueFrom(product$);
   }
-
 }

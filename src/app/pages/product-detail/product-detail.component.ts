@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Product } from '../../models/product';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -9,15 +10,13 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './product-detail.component.scss',
 })
 export class ProductDetailComponent {
-  // @Input() product!: Product;
-  // @Output() addToCart = new EventEmitter<void>();
-  // @Output() returnToList = new EventEmitter<void>();
   product: Product | null = null;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService: CartService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -28,5 +27,9 @@ export class ProductDetailComponent {
     } catch (error) {
       this.router.navigate(['not-found'], { skipLocationChange: true });
     }
+  }
+
+  addToCart(product: Product): void {
+    this.cartService.addToCart(product);
   }
 }

@@ -14,4 +14,5 @@ export type Product = {
 export type ProductState = {
   products: Product[];
   selectedProduct: Product | null;
+  // search: string;
 };

@@ -5,6 +5,7 @@ import { ProductActions } from './product.actions';
 const initialState: ProductState = {
   products: [],
   selectedProduct: null,
+  // search: '',
 };
 
 export const productReducer = createReducer(
@@ -16,5 +17,9 @@ export const productReducer = createReducer(
   on(ProductActions.setSelectedProduct, (state, { product }) => ({
     ...state,
     selectedProduct: product,
-  }))
+  })),
+  // on(ProductActions.setSearch, (state, { search }) => ({
+  //   ...state,
+  //   search,
+  // }))
 );

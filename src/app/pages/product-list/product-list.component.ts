@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
-import { FormControl } from '@angular/forms';
-import { combineLatest, concat, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -12,6 +10,8 @@ import { combineLatest, concat, map, startWith } from 'rxjs';
 })
 export class ProductListComponent {
   products$ = this.productService.products$;
+  // filteredProducts$ = this.productService.filteredProducts$;
+  // search = new FormControl('', { nonNullable: true });
 
   constructor(
     private productService: ProductService,
@@ -20,6 +20,12 @@ export class ProductListComponent {
 
   ngOnInit(): void {
     this.productService.getProducts();
+    // this.productService.search$.subscribe(search => {
+    //   this.search.setValue(search);
+    // })
+    // this.search.valueChanges.subscribe(search => {
+    //   this.productService.setSearch(search.trim());
+    // })
   }
 
   addToCart(product: Product): void {

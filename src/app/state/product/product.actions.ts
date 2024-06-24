@@ -8,5 +8,6 @@ export const ProductActions = createActionGroup({
     'Set Products': props<{ products: Product[] }>(),
     'Get Product By Id': props<{ id: number }>(),
     'Set Selected Product': props<{ product: Product }>(),
+    // 'Set Search': props<{ search: string }>(),
   },
 });

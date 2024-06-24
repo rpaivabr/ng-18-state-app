@@ -3,7 +3,9 @@
   (resetCart)="resetCart()"
 ></app-header>
 
-<app-product-list
+<router-outlet></router-outlet>
+
+<!-- <app-product-list
   *ngIf="!selectedProduct"
   [products]="products"
   (addToCart)="addToCart($event)"
@@ -15,4 +17,4 @@
   [product]="selectedProduct"
   (addToCart)="addToCart(selectedProduct)"
   (returnToList)="selectProduct(null)"
-></app-product-detail>
+></app-product-detail> -->

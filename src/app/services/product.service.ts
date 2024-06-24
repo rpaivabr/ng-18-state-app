@@ -1,20 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProductState } from '../models/product';
 import { Store } from '@ngrx/store';
 import {
+  selectFilteredProducts,
   selectProducts,
+  selectSearch,
   selectSelectedProduct,
 } from '../state/product/product.selectors';
 import { ProductActions } from '../state/product/product.actions';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  products$ = this.store.select(selectProducts);
-  // search$ = this.store.select(selectSearch);
-  // filteredProducts$ = this.store.select(selectFilteredProducts);
-  selectedProduct$ = this.store.select(selectSelectedProduct);
-
-  constructor(private store: Store<{ product: ProductState }>) {}
+  private readonly store = inject(Store<{ product: ProductState }>);
+  // private readonly store = inject(CartStore);
+  products = this.store.selectSignal(selectProducts);
+  search = this.store.selectSignal(selectSearch);
+  filteredProducts = this.store.selectSignal(selectFilteredProducts);
+  selectedProduct = this.store.selectSignal(selectSelectedProduct);
 
   getProducts(): void {
     this.store.dispatch(ProductActions.getProducts());
@@ -24,7 +26,7 @@ export class ProductService {
     this.store.dispatch(ProductActions.getProductById({ id }));
   }
 
-  // setSearch(search: string): void {
-  //   this.store.dispatch(ProductActions.setSearch({ search }));
-  // }
+  setSearch(search: string): void {
+    this.store.dispatch(ProductActions.setSearch({ search }));
+  }
 }

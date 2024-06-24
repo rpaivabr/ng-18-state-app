@@ -1,26 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { Product } from '../../models/product';
-import { ActivatedRoute } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-detail',
+  standalone: true,
+  imports: [JsonPipe, RouterLink],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
 })
 export class ProductDetailComponent {
-  selectedProduct$ = this.productService.selectedProduct$;
+  private readonly productService = inject(ProductService);
+  private readonly cartService = inject(CartService);
+  id = input<string>();
+  selectedProduct = this.productService.selectedProduct;
 
-  constructor(
-    private route: ActivatedRoute,
-    private productService: ProductService,
-    private cartService: CartService
-  ) {}
-
-  ngOnInit(): void {
-    const { id } = this.route.snapshot.params;
-    this.productService.getProductById(Number(id));
+  constructor() {
+    effect(() => {
+      this.productService.getProductById(Number(this.id()));
+    }, { allowSignalWrites: true })
   }
 
   addToCart(product: Product): void {

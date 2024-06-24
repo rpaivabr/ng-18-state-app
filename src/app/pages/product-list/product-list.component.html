@@ -1,8 +1,10 @@
-<!-- <input [formControl]="search" /> -->
+<input [formControl]="search" />
 <ul id="list">
-  <li *ngFor="let product of products$ | async">
-    <span>{{ product.name }}</span>
-    <button (click)="addToCart(product)">Add</button>
-    <button [routerLink]="[product.id]">More</button>
-  </li>
+  @for (product of filteredProducts(); track product.id) {
+    <li>
+      <span>{{ product.name }}</span>
+      <button (click)="addToCart(product)">Add</button>
+      <button [routerLink]="[product.id]">More</button>
+    </li>
+  }
 </ul>
